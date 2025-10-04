@@ -6,8 +6,8 @@ class UsuarioModel extends Model
 {
     protected $table = 'usuarios';
     protected $primaryKey = 'id';
-    // Se incluyen los campos de la tabla para las operaciones CRUD si fueran necesarias
-    protected $allowedFields = ['nombre', 'apellido', 'correo', 'password'];
+    // Aseguramos que 'id_tipo' sea un campo permitido para si lo necesitas en otras operaciones
+    protected $allowedFields = ['id_tipo', 'nombre', 'apellido', 'correo', 'password', 'fecha_nacimiento'];
 
     /**
      * Verifica la existencia del usuario usando 'correo' y el 'password' cifrado en MD5.
@@ -17,10 +17,19 @@ class UsuarioModel extends Model
      */
     public function verificarUsuario($correo, $password)
     {
-        // Se busca por la columna 'correo' y se cifra la contraseña ingresada
-        // para compararla con el hash MD5 almacenado en la base de datos.
+        // Importante: Se traen todos los campos para la sesión, incluyendo id_tipo, nombre y apellido.
         return $this->where('correo', $correo)
             ->where('password', md5($password))
             ->first();
+    }
+
+    /**
+     * Obtiene los datos de un tipo de usuario específico
+     * Esta función la agregamos para poder obtener el nombre del tipo (Administrador o Alumno)
+     */
+    public function getTipoUsuario($id_tipo)
+    {
+        $db = \Config\Database::connect();
+        return $db->table('tipos')->where('id', $id_tipo)->get()->getRowArray();
     }
 }

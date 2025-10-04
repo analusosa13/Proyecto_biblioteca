@@ -34,6 +34,9 @@ class Filters extends BaseFilters
         'forcehttps'    => ForceHTTPS::class,
         'pagecache'     => PageCache::class,
         'performance'   => PerformanceMetrics::class,
+        
+        // === REGISTRO DEL ALIAS 'admin' PARA EL FILTRO DE SEGURIDAD ===
+        'admin'         => \App\Filters\AdminFilter::class, 
     ];
 
     /**
@@ -66,8 +69,8 @@ class Filters extends BaseFilters
      * applied before and after every request.
      *
      * @var array{
-     *     before: array<string, array{except: list<string>|string}>|list<string>,
-     *     after: array<string, array{except: list<string>|string}>|list<string>
+     * before: array<string, array{except: list<string>|string}>|list<string>,
+     * after: array<string, array{except: list<string>|string}>|list<string>
      * }
      */
     public array $globals = [
@@ -107,4 +110,6 @@ class Filters extends BaseFilters
      * @var array<string, array<string, list<string>>>
      */
     public array $filters = [];
+
+    
 }

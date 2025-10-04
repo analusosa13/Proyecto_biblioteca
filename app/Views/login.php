@@ -3,127 +3,206 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login Café con Letras</title>
+    <title>Café con Letras — Sistema Bibliotecario</title>
     <style>
-        /* Usamos la fuente 'Inter' para mejor compatibilidad y estética moderna, 
-           pero manteniendo los estilos temáticos de café/libros. */
+        /* Paleta de colores ajustada a tonos más cálidos y pastel (basado en la imagen):
+           Fondo principal: #F8F5EF (Beige muy claro)
+           Contenedor: #FFFFFF o #FEFEFE
+           Énfasis (Texto/Bordes/Botón): #C6A89C (Rosa/Café suave) y #A35F3D (Café oscuro para contraste)
+        */
         body {
-            font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(to bottom, #f3e5d5, #d7bfae);
-            /* Usamos un placeholder para asegurar la carga en el entorno, 
-               pero manteniendo la estética de la librería/cafetería */
-            background-image: url('https://placehold.co/1200x800/d7bfae/fff?text=Libreria+y+Cafe');
-            background-size: cover;
-            background-position: center;
+            font-family: 'Inter', sans-serif; /* Mantenemos Inter como fuente estándar */
+            background-color:  #C6A89C; /* Fondo principal muy claro y cálido */
+            background-image: linear-gradient(to bottom,  #C6A89C,  #C6A89C); /* Degradado sutil */
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
             margin: 0;
-            padding: 20px; /* Padding para móvil */
+            padding: 20px;
+            color: #4A4A4A; /* Color de texto general suave */
         }
-        .login-container {
-            background-color: #fff8f0;
-            padding: 40px 30px;
-            border-radius: 12px;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.25);
-            width: 100%; /* Adaptable */
-            max-width: 320px; /* Máximo ancho */
-            text-align: center;
-            box-sizing: border-box; /* Incluir padding en el width */
-        }
-        h2 {
-            font-family: 'Georgia', serif;
-            color: #6b3e26;
-            margin-bottom: 25px;
-            font-size: 28px;
-        }
-        /* Estilo para los mensajes de error (Flash data) */
-        .alert-error {
-            background-color: #fce4e4; 
-            color: #c00000;
-            padding: 10px;
-            border-radius: 8px;
-            margin-bottom: 15px;
-            border: 1px solid #f9bdbd;
-            font-size: 14px;
-            font-weight: 500;
-        }
-        input[type="email"], input[type="password"] {
-            width: 90%;
-            padding: 12px;
-            margin: 10px 0;
-            border: 1px solid #c9a68c;
-            border-radius: 8px;
-            background-color: #fdf5ef;
-            font-size: 16px;
-            transition: all 0.3s ease;
-        }
-        input[type="email"]:focus, input[type="password"]:focus {
-            border-color: #a35f3d;
-            outline: none;
-            box-shadow: 0 0 5px rgba(163, 95, 61, 0.4);
-        }
-        button {
+        /* -- Estilo de Encabezado (Simulando la barra de navegación) -- */
+        .header-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
             width: 100%;
-            padding: 12px;
-            margin-top: 20px;
-            background-color: #a35f3d;
-            color: #fff;
-            border: none;
-            border-radius: 8px;
-            font-size: 16px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: background-color 0.3s ease, transform 0.2s;
-            box-shadow: 0 4px 10px rgba(163, 95, 61, 0.3);
+            background-color: #F2EFE9; /* Tono más claro para la barra */
+            border-bottom: 1px solid #E0DCD7;
+            padding: 10px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.03);
+            z-index: 10;
         }
-        button:hover {
-            background-color: #804833;
-            transform: translateY(-1px);
+        .header-bar .logo {
+            font-weight: 600;
+            color: #A35F3D; /* Mantenemos un toque de color café fuerte para la marca */
         }
-        .footer {
+        .header-bar .menu-item {
+            color: #8B8780;
+        }
+
+        /* -- Contenedor de Login Principal -- */
+        .login-container {
+            background-color: #FEFEFE; /* Fondo del contenedor blanco o casi blanco */
+            padding: 60px 50px;
+            border-radius: 8px; 
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.08);
+            width: 100%;
+            max-width: 600px; 
+            text-align: left;
+            box-sizing: border-box;
+            border: 1px solid #EBE7E2;
+        }
+        
+        /* Simulación del cuadro de avatar/marco izquierdo (Solo estilo de borde) */
+        .login-content {
+            display: flex;
+            gap: 40px;
+        }
+        .left-panel {
+            flex: 1;
+            border: 1px solid #C6A89C; /* Tono de borde más pastel/suave */
+            padding: 20px;
+            min-height: 250px;
+            font-size: 14px;
+            line-height: 1.5;
+            color: #C6A89C;
+            display: flex;
+            justify-content: center;
+            align-items: center;
             text-align: center;
-            margin-top: 20px;
-            font-size: 13px;
-            color: #8b5e3c;
+        }
+        .right-panel {
+            flex: 1;
+        }
+        
+        /* -- Estilos de Formulario -- */
+        h2 {
+            font-family: 'Inter', sans-serif;
+            font-weight: 500;
+            color: #4A4A4A; /* Tono de gris oscuro/café suave */
+            margin-bottom: 30px;
+            font-size: 24px;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            border-bottom: 1px solid #EBE7E2;
+            padding-bottom: 15px;
         }
         label {
             display: block;
             text-align: left;
-            margin-top: 10px;
+            margin-top: 15px;
+            margin-bottom: 5px;
             font-size: 14px;
-            color: #6b3e26;
+            color: #4A4A4A;
+            font-weight: 500;
+        }
+        input[type="email"], input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #C6A89C; /* Borde más suave */
+            border-radius: 4px;
+            background-color: #FEFEFE;
+            font-size: 16px;
+            color: #4A4A4A;
+            box-sizing: border-box;
+            transition: border-color 0.2s;
+        }
+        input[type="email"]:focus, input[type="password"]:focus {
+            border-color: #A35F3D;
+            outline: none;
+            box-shadow: 0 0 0 1px #A35F3D;
+        }
+        
+        /* -- Estilo de Botón -- */
+        button {
+            width: 100%;
+            padding: 12px 20px;
+            margin-top: 25px;
+            background-color: #E6D8D2; /* Tono de botón pastel/rosado */
+            color: #A35F3D; /* Texto en tono café fuerte para contraste */
+            border: 1px solid #C6A89C;
+            border-radius: 4px;
+            font-size: 16px;
             font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        button:hover {
+            background-color: #D6C2B0;
+            color: #6b3e26;
+        }
+        
+        /* -- Mensaje de Error -- */
+        .alert-error {
+            background-color: #ffe8e8; 
+            color: #CC0000;
+            padding: 10px;
+            border-radius: 4px;
+            margin-bottom: 15px;
+            border: 1px solid #f5c6cb;
+            font-size: 14px;
+            text-align: center;
+        }
+
+        /* Ocultar el pie de página de la librería para mantener el diseño simple */
+        .footer {
+            display: none;
+        }
+        
+        /* -- Media Query para móviles -- */
+        @media (max-width: 650px) {
+            .login-content {
+                flex-direction: column;
+            }
+            .login-container {
+                padding: 30px 20px;
+            }
+            .left-panel {
+                display: none; /* Ocultamos el panel izquierdo en móvil */
+            }
         }
     </style>
 </head>
 <body>
+    <!-- Simulación del Encabezado de Navegación -->
+    <div class="header-bar">
+        <div class="logo">☕ Café con Letras — Sistema Bibliotecario</div>
+        
+    </div>
+    
     <div class="login-container">
-        <h2>Café con Letras</h2>
+        <h2><b>LOGIN</h2>
 
-        <?php if (session()->getFlashdata('error')): ?>
-            <!-- Mostrar mensaje de error si existe -->
-            <div class="alert-error">
-                <?= esc(session()->getFlashdata('error')) ?>
+        <div class="login-content">
+            <!-- Panel Derecho: Formulario de Login -->
+            <div class="right-panel">
+                <?php if (session()->getFlashdata('error')): ?>
+                    <!-- Mostrar mensaje de error si existe -->
+                    <div class="alert-error">
+                        <?= esc(session()->getFlashdata('error')) ?>
+                    </div>
+                <?php endif; ?>
+
+                <!-- Ruta corregida para CodeIgniter 4 -->
+                <form action="<?= base_url('login/autenticar') ?>" method="POST">
+                    
+                    <!-- Campo de Correo (Usuario) -->
+                    <label for="correo">Correo</label>
+                    <input type="email" id="correo" name="correo" placeholder="Ingrese su correo" required>
+
+                    <!-- Campo de Contraseña -->
+                    <label for="contrasena">Contraseña</label>
+                    <input type="password" id="contrasena" name="contrasena" placeholder="Ingrese su contraseña" required>
+
+                    <button type="submit">Ingresar</button>
+                </form>
             </div>
-        <?php endif; ?>
-
-        <!-- Ruta corregida para CodeIgniter 4 -->
-        <form action="<?= base_url('login/autenticar') ?>" method="POST">
-            
-            <label for="correo">Correo electrónico (Usuario):</label>
-            <!-- Importante: name="correo" -->
-            <input type="email" id="correo" name="correo" placeholder="Ingrese su correo" required>
-
-            <label for="contrasena">Contraseña:</label>
-            <!-- Importante: name="contrasena" -->
-            <input type="password" id="contrasena" name="contrasena" placeholder="Ingrese su contraseña" required>
-
-            <button type="submit">Ingresar</button>
-        </form>
-        <div class="footer">
-            Librería/Cafetería Cultural
         </div>
     </div>
 </body>

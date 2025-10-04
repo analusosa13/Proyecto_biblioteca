@@ -10,9 +10,10 @@ class Login extends BaseController
      */
     public function index()
     {
-        // Si el usuario ya está logueado, se redirige directamente al panel
+        // Si el usuario ya está logueado, redirigimos a su panel correspondiente
         if (session()->get('logged_in')) {
-            return redirect()->to('/panel');
+            // Utilizamos la lógica de redirección por rol que implementaremos a continuación
+            $this->redirigirPorRol();
         }
         return view('login');
     }
@@ -22,38 +23,91 @@ class Login extends BaseController
      */
     public function autenticar()
     {
-        // Capturamos los datos enviados por el formulario usando los nombres correctos
         $correo = $this->request->getPost('correo');
         $password = $this->request->getPost('contrasena');
 
         $usuarioModel = new UsuarioModel();
         
-        // El modelo espera el correo y la contraseña sin cifrar
         $datosUsuario = $usuarioModel->verificarUsuario($correo, $password);
 
         if ($datosUsuario) {
-            // Establecemos la sesión. Usamos el correo como identificador 'usuario'
+            // === MODIFICACIÓN CLAVE: Guardamos más datos del usuario en la sesión ===
             session()->set([
-                'usuario' => $datosUsuario['correo'], // Guardamos el correo en la sesión
+                'id_usuario' => $datosUsuario['id'],
+                'nombre' => $datosUsuario['nombre'],
+                'apellido' => $datosUsuario['apellido'],
+                'correo' => $datosUsuario['correo'],
+                'id_tipo' => $datosUsuario['id_tipo'], // Necesario para la redirección
                 'logged_in' => true
             ]);
-            return redirect()->to('/panel');
+
+            // Redirige según el tipo de usuario (1: Administrador, 2: Alumno)
+            return $this->redirigirPorRol();
+
         } else {
             // Redirección con mensaje de error (Flash data)
             return redirect()->back()->with('error', 'Usuario o contraseña incorrectos.');
         }
     }
+    
+    /**
+     * Lógica para redirigir al panel correcto.
+     */
+    private function redirigirPorRol()
+    {
+        $id_tipo = session()->get('id_tipo');
+
+        if ($id_tipo == 1) { // Administrador
+            return redirect()->to('/panel/admin');
+        } elseif ($id_tipo == 2) { // Alumno
+            return redirect()->to('/panel/alumno');
+        }
+        // Si no es ninguno, destruye la sesión por seguridad y vuelve al login.
+        session()->destroy();
+        return redirect()->to('/');
+    }
 
     /**
-     * Muestra la vista del panel, protegida por la sesión.
+     * Muestra la vista del panel del ADMINISTRADOR.
      */
-    public function panel()
+    // En app/Controllers/Login.php
+
+// ... (resto del código del controlador)
+
+    /**
+     * Muestra la vista del panel del ADMINISTRADOR usando la plantilla.
+     */
+    public function panelAdmin()
     {
-        // Verificamos si el usuario está logueado antes de mostrar el panel
-        if (!session()->get('logged_in')) {
+        // Solo permite acceso si está logueado y es Administrador (id_tipo 1)
+        if (!session()->get('logged_in') || session()->get('id_tipo') != 1) {
             return redirect()->to('/');
         }
-        return view('panel');
+
+        // === CAMBIO CLAVE: Carga la vista del panel y la pasa a la plantilla ===
+        $data = [
+            'titulo' => 'Dashboard',
+            'menu_activo' => 'dashboard', // Para resaltar el elemento en el sidebar
+            'contenido' => view('Administrador/panel') // Carga el contenido del dashboard
+        ];
+
+        // Carga la plantilla y le inyecta la vista de contenido
+        return view('Plantillas/plantilla_admin', $data);
+    }
+    
+// ... (resto del código del controlador)
+
+    /**
+     * Muestra la vista del panel del ALUMNO.
+     */
+    public function panelAlumno()
+    {
+        // Verificamos si el usuario está logueado Y si es alumno (id_tipo 2)
+        if (!session()->get('logged_in') || session()->get('id_tipo') != 2) {
+            return redirect()->to('/');
+        }
+        // La vista está en /app/Views/Alumno/panel.php
+        return view('Alumno/panel');
     }
 
     /**
