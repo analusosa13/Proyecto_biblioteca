@@ -32,6 +32,10 @@ class Filters extends BaseFilters
         // === REGISTRO DE FILTROS PERSONALIZADOS ===
         'admin'         => \App\Filters\AdminFilter::class, 
         'alumno'        => \App\Filters\AlumnoFilter::class,
+        'bibliotecario' => \App\Filters\BibliotecarioFilter::class, 
+        
+        // NUEVA LÍNEA CLAVE: Filtro compartido para Admin y Bibliotecario
+        'adminbiblio'   => \App\Filters\AdminBibliotecarioFilter::class,
     ];
 
     /**

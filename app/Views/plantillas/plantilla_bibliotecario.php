@@ -3,24 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?= $titulo ?? 'Panel de Administración' ?> | Café con Letras</title>
+    <title><?= $titulo ?? 'Panel Bibliotecario' ?> | Café con Letras</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
     <style>
         /* ==========================================================
-           PALETA DE COLORES (Basada en el Login y Dashboard)
+           PALETA DE COLORES
            ========================================================== */
         :root {
-            --color-primary-bg: #F8F5EF; /* Beige muy claro, fondo general del contenido */
-            --color-secondary-bg: #FEFEFE; /* Blanco, fondo de tarjetas y sidebar */
-            --color-header-bg: #F2EFE9; /* Tono más claro para el encabezado/barra */
-            --color-accent-soft: #E6D8D2; /* Tono pastel para hover y botones suaves */
-            --color-accent-medium: #C6A89C; /* Rosa/Café suave, para fondo de botón activo y bordes */
-            --color-accent-strong: #A35F3D; /* Café oscuro, para texto de marca, footer y hover fuerte */
-            --color-text-dark: #4A4A4A; /* Texto principal oscuro */
-            --color-text-subtle: #8B8780; /* Texto secundario/menú */
-            /* Estilos de Dashboard */
-            --color-card-bg: #E6D8D2; /* Fondo claro para los botones/cards */
+            --color-primary-bg: #F8F5EF; 
+            --color-secondary-bg: #FEFEFE; 
+            --color-header-bg: #F2EFE9; 
+            --color-accent-soft: #E6D8D2; 
+            --color-accent-medium: #C6A89C; 
+            --color-accent-strong: #A35F3D; 
+            --color-text-dark: #4A4A4A; 
+            --color-text-subtle: #8B8780;
+            /* Variables de Tarjeta */
+            --color-card-bg: #E6D8D2;
             --color-card-border: #C6A89C;
             --color-card-shadow: rgba(0, 0, 0, 0.1);
+            --admin-kpi-card-bg: var(--color-card-bg);
+            --admin-kpi-card-border: var(--color-card-border);
+            --admin-kpi-card-shadow: var(--color-card-shadow);
         }
 
         /* ==========================================================
@@ -50,14 +55,11 @@
         }
         
         .main-content {
-            /* Ya no tiene color de fondo ni sombra, lo tiene la plantilla del dashboard */
             padding: 0; 
             min-height: calc(100vh - 160px); 
         }
 
-        /* ==========================================================
-           HEADER
-           ========================================================== */
+        /* HEADER */
         .main-header {
             background-color: var(--color-header-bg);
             border-bottom: 1px solid var(--color-accent-medium);
@@ -95,9 +97,7 @@
             font-weight: 600;
         }
 
-        /* ==========================================================
-           SIDEBAR (Menú Lateral)
-           ========================================================== */
+        /* SIDEBAR */
         .main-sidebar {
             width: 250px;
             background-color: var(--color-secondary-bg);
@@ -121,20 +121,23 @@
             transition: background-color 0.2s, color 0.2s;
             border-left: 3px solid transparent;
         }
+        .menu-item a i {
+            margin-right: 10px;
+            width: 18px; 
+            text-align: center;
+        }
         .menu-item a:hover {
             background-color: var(--color-accent-soft);
             color: var(--color-accent-strong);
         }
         .menu-item.active a {
             background-color: var(--color-accent-medium);
-            color: var(--color-secondary-bg);
+            color: var(--color-secondary-bg); 
             border-left: 3px solid var(--color-accent-strong);
             font-weight: 600;
         }
-
-        /* ==========================================================
-           FOOTER
-           ========================================================== */
+        
+        /* FOOTER y TÍTULOS */
         .main-footer {
             background-color: var(--color-header-bg);
             border-top: 1px solid var(--color-accent-medium);
@@ -144,22 +147,77 @@
             color: var(--color-text-subtle);
             flex-shrink: 0;
         }
-
-        /* [Estilos Responsive Omitidos por brevedad, asume que están aquí] */
-        @media (max-width: 768px) {
-            /* ... (Tus estilos responsive) ... */
+        .section-title {
+            font-size: 1.8rem;
+            color: var(--color-text-dark);
+            margin-bottom: 25px;
+            border-bottom: 1px solid var(--color-accent-soft);
+            padding-bottom: 10px;
         }
+
+
+        /* ==========================================================
+           !!! ESTILOS DE DASHBOARD AGREGADOS AQUÍ !!!
+           ========================================================== */
+        .dashboard-container {
+            padding: 30px;
+            background-color: var(--color-secondary-bg);
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+        }
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        /* Clase reutilizada para tarjetas clave (KPIs) */
+        .kpi-card {
+            /* IMPORTANTE: Esto asegura que el texto dentro del <a> no se vea azul */
+            text-decoration: none; 
+            color: var(--color-text-dark); 
+
+            background-color: var(--admin-kpi-card-bg);
+            border: 1px solid var(--admin-kpi-card-border);
+            border-radius: 6px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 2px 5px var(--admin-kpi-card-shadow);
+            transition: transform 0.2s, box-shadow 0.2s;
+            display: block;
+        }
+        .kpi-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 8px var(--admin-kpi-card-shadow);
+            background-color: var(--color-accent-soft);
+        }
+        .kpi-card h3 {
+            margin-top: 0;
+            font-size: 1.2rem;
+            color: var(--color-accent-strong);
+        }
+        /* Líneas de simulación KPI */
+        .kpi-line {
+            height: 10px;
+            background-color: var(--color-accent-medium);
+            margin: 5px auto;
+            border-radius: 5px;
+            opacity: 0.5;
+            width: 80%;
+        }
+        
     </style>
+    
     <?= $extra_head ?? '' ?>
 </head>
 <body>
     <header class="main-header">
-        <a href="<?= base_url('panel/admin') ?>" class="header-logo">
-            <i class="fas fa-mug-hot"></i> Café con Letras | Admin
+        <a href="<?= base_url('bibliotecario') ?>" class="header-logo">
+            <i class="fas fa-mug-hot"></i> Café con Letras | Bibliotecario
         </a>
         <div class="header-user-info">
-            Bienvenido(a), <span class="user-name"><?= session('nombre') . ' ' . session('apellido') ?></span>
-            <a href="<?= base_url('login/salir') ?>">Cerrar Sesión</a>
+            Operador(a), <span class="user-name"><?= session('nombre') . ' ' . session('apellido') ?></span>
+            <a href="<?= base_url('login/salir') ?>"><i class="fas fa-sign-out-alt"></i> Cerrar Sesión</a>
         </div>
     </header>
 
@@ -167,33 +225,20 @@
         <aside class="main-sidebar">
             <ul class="sidebar-menu">
                 <li class="menu-item <?= ($menu_activo ?? '') === 'dashboard' ? 'active' : '' ?>">
-                    <a href="<?= base_url('panel/admin') ?>">
-                        Dashboard
+                    <a href="<?= base_url('bibliotecario/dashboard') ?>">
+                         Dashboard
                     </a>
                 </li>
-                <li class="menu-item <?= ($menu_activo ?? '') === 'libros' ? 'active' : '' ?>">
-                    <a href="<?= base_url('libros') ?>">
-                        Gestión de Libros
-                    </a>
-                </li>
-                <li class="menu-item <?= ($menu_activo ?? '') === 'usuarios' ? 'active' : '' ?>">
-                    <a href="<?= base_url('usuarios') ?>">
-                        Gestión de Usuarios
-                    </a>
-                </li>
+                
                 <li class="menu-item <?= ($menu_activo ?? '') === 'prestamos' ? 'active' : '' ?>">
-                    <a href="<?= base_url('prestamos') ?>">
-                        Préstamos
+                    <a href="<?= base_url('bibliotecario/prestamos') ?>">
+                        Gestión Préstamos
                     </a>
                 </li>
+                
                 <li class="menu-item <?= ($menu_activo ?? '') === 'devoluciones' ? 'active' : '' ?>">
-                    <a href="<?= base_url('devoluciones') ?>">
-                        Devoluciones
-                    </a>
-                </li>
-                <li class="menu-item <?= ($menu_activo ?? '') === 'reportes' ? 'active' : '' ?>">
-                    <a href="<?= base_url('reportes') ?>">
-                        Reportes
+                    <a href="<?= base_url('bibliotecario/devoluciones') ?>">
+                        Registro Devoluciones
                     </a>
                 </li>
                 
@@ -201,12 +246,18 @@
         </aside>
 
         <main class="content-wrapper">
-            <?= $contenido ?? '' ?>
+            <?php if (!empty($titulo)): ?>
+                <h1 class="section-title"><?= esc($titulo) ?></h1>
+            <?php endif; ?>
+
+            <div class="main-content">
+                <?= $contenido ?? '' ?>
+            </div>
         </main>
     </div>
 
     <footer class="main-footer">
-        &copy; <?= date('Y') ?> Café con Letras | Sistema de Gestión Bibliotecaria
+        &copy; <?= date('Y') ?> Café con Letras | Portal de Bibliotecarios
     </footer>
     <?= $extra_footer ?? '' ?>
 </body>

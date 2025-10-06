@@ -15,6 +15,16 @@ class DevolucionController extends BaseController
         $this->prestamoModel = new PrestamoModel();
         $this->libroModel = new LibroModel();
     }
+    
+    /**
+     * Determina qué plantilla de layout usar (Admin o Bibliotecario) basándose en el rol del usuario.
+     */
+    private function obtenerPlantilla(): string
+    {
+        $id_tipo = session()->get('id_tipo');
+        // id_tipo = 1 es Administrador, id_tipo = 3 es Bibliotecario
+        return ($id_tipo == 1) ? 'Plantillas/plantilla_admin' : 'Plantillas/plantilla_bibliotecario';
+    }
 
     /**
      * READ: Muestra el historial de devoluciones (préstamos con estado 'Devuelto').
@@ -29,7 +39,9 @@ class DevolucionController extends BaseController
         ];
         
         $data['contenido'] = view('Administrador/devoluciones/devoluciones', $data);
-        return view('Plantillas/plantilla_admin', $data);
+        
+        // Carga la plantilla correcta de forma dinámica
+        return view($this->obtenerPlantilla(), $data);
     }
     
     /**
@@ -45,12 +57,13 @@ class DevolucionController extends BaseController
         ];
         
         $data['contenido'] = view('Administrador/devoluciones/form_devolucion', $data);
-        return view('Plantillas/plantilla_admin', $data);
+        
+        // Carga la plantilla correcta de forma dinámica
+        return view($this->obtenerPlantilla(), $data);
     }
 
     /**
      * UPDATE (Acción): Procesa la devolución de un préstamo activo.
-     * Es la misma lógica que tenías en PrestamoController::devolver.
      */
     public function devolver($id)
     {
@@ -73,6 +86,7 @@ class DevolucionController extends BaseController
             $this->libroModel->update($prestamo['libro_id'], ['cantidad' => $nueva_cantidad]);
         }
         
+        // Redirige al historial de devoluciones (index)
         return redirect()->to('/devoluciones')->with('success', 'Devolución registrada exitosamente. Stock actualizado.');
     }
     

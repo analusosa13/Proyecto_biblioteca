@@ -12,7 +12,8 @@ class Login extends BaseController
     {
         // Si el usuario ya está logueado, redirigimos a su panel correspondiente
         if (session()->get('logged_in')) {
-            $this->redirigirPorRol();
+            // NOTA: Debe retornar la redirección para que funcione correctamente
+            return $this->redirigirPorRol();
         }
         return view('login');
     }
@@ -50,19 +51,22 @@ class Login extends BaseController
     /**
      * Lógica para redirigir al panel correcto.
      */
-private function redirigirPorRol()
-{
-    $id_tipo = session()->get('id_tipo');
+    private function redirigirPorRol()
+    {
+        $id_tipo = session()->get('id_tipo');
 
-    if ($id_tipo == 1) { // Administrador
-        return redirect()->to('panel/admin'); 
-    } elseif ($id_tipo == 2) { // Alumno
-        return redirect()->to('alumno'); 
+        if ($id_tipo == 1) { // Administrador
+            return redirect()->to('panel/admin'); 
+        } elseif ($id_tipo == 2) { // Alumno
+            return redirect()->to('alumno'); 
+        } elseif ($id_tipo == 3) { // Bibliotecario <--- ¡NUEVA LÍNEA CLAVE!
+            return redirect()->to('bibliotecario'); 
+        }
+        
+        // Si el rol no coincide con ninguno, destruye la sesión y redirige al login
+        session()->destroy();
+        return redirect()->to('/');
     }
-    
-    session()->destroy();
-    return redirect()->to('/');
-}
 
     public function panelAdmin()
     {

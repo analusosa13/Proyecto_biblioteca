@@ -208,7 +208,7 @@
 <body>
     <header class="main-header">
         <a href="<?= base_url('alumno') ?>" class="header-logo">
-            ☕ Café con Letras | Alumno
+            <i class="fas fa-mug-hot"></i> Café con Letras | Alumno
         </a>
         <div class="header-user-info">
             Bienvenido(a), <span class="user-name"><?= session('nombre') . ' ' . session('apellido') ?></span>

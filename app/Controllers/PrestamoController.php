@@ -18,8 +18,16 @@ class PrestamoController extends BaseController
         // Reutilizamos modelos existentes para dropdowns y stock
         $this->usuarioModel = new UsuarioModel(); 
         $this->libroModel = new LibroModel();
-        
-        // Asume que el filtro 'admin' está protegiendo este acceso
+    }
+    
+    /**
+     * Determina qué plantilla de layout usar (Admin o Bibliotecario) basándose en el rol del usuario.
+     */
+    private function obtenerPlantilla(): string
+    {
+        $id_tipo = session()->get('id_tipo');
+        // id_tipo = 1 es Administrador, id_tipo = 3 es Bibliotecario
+        return ($id_tipo == 1) ? 'Plantillas/plantilla_admin' : 'Plantillas/plantilla_bibliotecario';
     }
 
     /**
@@ -34,7 +42,9 @@ class PrestamoController extends BaseController
         ];
         
         $data['contenido'] = view('Administrador/prestamos/prestamos', $data);
-        return view('Plantillas/plantilla_admin', $data);
+        
+        // Carga la plantilla correcta de forma dinámica
+        return view($this->obtenerPlantilla(), $data);
     }
     
     /**
@@ -52,7 +62,9 @@ class PrestamoController extends BaseController
         ];
         
         $data['contenido'] = view('Administrador/prestamos/form_prestamo', $data);
-        return view('Plantillas/plantilla_admin', $data);
+        
+        // Carga la plantilla correcta de forma dinámica
+        return view($this->obtenerPlantilla(), $data);
     }
 
     /**
@@ -126,8 +138,6 @@ class PrestamoController extends BaseController
     
     /**
      * DELETE: Elimina un registro de préstamo.
-     * Esta función solo se usa para registros erróneos o muy viejos,
-     * y NO debe usarse si el estado está "En proceso" sin devolver stock.
      */
     public function eliminar($id)
     {
