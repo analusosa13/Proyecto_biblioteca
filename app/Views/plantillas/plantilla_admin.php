@@ -196,11 +196,7 @@
                         Reportes
                     </a>
                 </li>
-                <li class="menu-item <?= ($menu_activo ?? '') === 'ajustes' ? 'active' : '' ?>">
-                    <a href="<?= base_url('ajustes') ?>">
-                        Ajustes
-                    </a>
-                </li>
+                
             </ul>
         </aside>
 

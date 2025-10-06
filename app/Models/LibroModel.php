@@ -36,4 +36,22 @@ class LibroModel extends Model
             ->where('libros.id', $id)
             ->first();
     }
+
+    // Archivo: app/Models/LibroModel.php
+// ... (código existente)
+
+    /**
+     * Obtiene solo los libros que tienen stock > 0 y están 'Disponible', con el nombre de la categoría.
+     * @return array
+     */
+    public function obtenerLibrosDisponiblesConCategoria()
+    {
+        return $this->select('libros.*, categorias.nom_categoria')
+            ->join('categorias', 'categorias.id = libros.id_categoria')
+            ->where('libros.cantidad >', 0)
+            ->where('libros.estado', 'Disponible')
+            ->orderBy('libros.titulo', 'ASC')
+            ->findAll();
+    }
+
 }

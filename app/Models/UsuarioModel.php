@@ -88,4 +88,17 @@ class UsuarioModel extends Model
         $db = \Config\Database::connect();
         return $db->table('tipos')->where('id', $id_tipo)->get()->getRowArray();
     }
+
+    // Archivo: app/Models/UsuarioModel.php
+// ... (código existente)
+
+    /**
+     * Obtiene la lista de todos los usuarios de tipo Alumno (id_tipo = 2).
+     * @return array
+     */
+    public function obtenerAlumnos()
+    {
+        return $this->where('id_tipo', 2)->findAll();
+    }
+
 }

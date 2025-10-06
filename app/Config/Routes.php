@@ -47,3 +47,24 @@ $routes->group('prestamos', ['filter' => 'admin'], function($routes) {
     $routes->get('devolver/(:num)', 'PrestamoController::devolver/$1'); // UPDATE: Marcar devolución
     $routes->get('eliminar/(:num)', 'PrestamoController::eliminar/$1'); // DELETE: Eliminar registro
 });
+
+// En app/Config/Routes.php
+
+// Rutas para la gestión de Devoluciones (Historial y Registro)
+$routes->group('devoluciones', ['filter' => 'admin'], function($routes) {
+    $routes->get('/', 'DevolucionController::index');             // READ: Historial de devoluciones (Devueltos)
+    $routes->get('nuevo', 'DevolucionController::nuevo');         // CREATE (Vista): Listado de préstamos activos
+    $routes->get('devolver/(:num)', 'DevolucionController::devolver/$1'); // CREATE (Acción): Registrar la devolución
+    $routes->get('eliminar/(:num)', 'DevolucionController::eliminar/$1'); // DELETE: Eliminar registro del historial
+});
+
+// En app/Config/Routes.php
+
+// Rutas para la gestión de Reportes
+$routes->group('reportes', ['filter' => 'admin'], function($routes) {
+    $routes->get('/', 'ReporteController::index');                 // Dashboard de filtros
+    $routes->get('alumno', 'ReporteController::porAlumno');       // Reporte por alumno
+    $routes->get('libro', 'ReporteController::porLibro');         // Reporte por libro
+    $routes->get('disponibles', 'ReporteController::librosDisponibles'); // Reporte disponibles
+    $routes->get('activos', 'ReporteController::prestamosActivos'); // Reporte activos
+});
