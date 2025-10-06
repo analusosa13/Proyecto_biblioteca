@@ -10,8 +10,8 @@ $routes->get('/', 'Login::index');
 $routes->post('login/autenticar', 'Login::autenticar');
 // Rutas para los paneles específicos
 $routes->get('panel/admin', 'Login::panelAdmin');
-$routes->get('panel/alumno', 'Login::panelAlumno');
 $routes->get('login/salir', 'Login::salir');
+
 
 
 // Rutas para la gestión de Libros (CRUD)
@@ -67,4 +67,23 @@ $routes->group('reportes', ['filter' => 'admin'], function($routes) {
     $routes->get('libro', 'ReporteController::porLibro');         // Reporte por libro
     $routes->get('disponibles', 'ReporteController::librosDisponibles'); // Reporte disponibles
     $routes->get('activos', 'ReporteController::prestamosActivos'); // Reporte activos
+});
+
+// En app/Config/Routes.php
+
+
+// Asegúrate de que esta ruta de alumno esté definida correctamente
+// Rutas para el área de Alumno
+// Nota: Se asume que el 'filter' llamado 'alumno' existe y verifica la sesión y el id_tipo=2.
+$routes->group('alumno', ['filter' => 'alumno'], function($routes) {
+    
+    // Ruta principal del dashboard (ej. /alumno o /alumno/dashboard)
+    $routes->get('dashboard', 'AlumnoController::dashboard');
+    $routes->get('/', 'AlumnoController::dashboard'); 
+    
+    // Menú lateral: Ruta del Catálogo (muestra libros disponibles)
+    $routes->get('catalogo', 'AlumnoController::catalogo');
+    
+    // Menú lateral: Ruta del Historial de Préstamos (llama a la nueva función)
+    $routes->get('prestamos', 'AlumnoController::misPrestamos', ['as' => 'alumno_prestamos']); // ⬅️ RUTA INTEGRADA
 });
