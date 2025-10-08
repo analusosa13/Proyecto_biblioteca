@@ -3,31 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?= $titulo ?? 'Panel Alumno' ?> | Café con Letras</title>
+    <title><?= $titulo ?? 'Panel Alumno' ?> | Jardín de Lecturas</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     
     <style>
         /* ==========================================================
-           PALETA DE COLORES (COPIADA DE LA PLANTILLA ADMIN)
+           PALETA DE COLORES - Jardín de Lecturas
            ========================================================== */
         :root {
-            --color-primary-bg: #F8F5EF; /* Beige muy claro, fondo general del contenido */
-            --color-secondary-bg: #FEFEFE; /* Blanco, fondo de tarjetas y sidebar */
-            --color-header-bg: #F2EFE9; /* Tono más claro para el encabezado/barra */
-            --color-accent-soft: #E6D8D2; /* Tono pastel para hover y botones suaves */
-            --color-accent-medium: #C6A89C; /* Rosa/Café suave, para fondo de botón activo y bordes */
-            --color-accent-strong: #A35F3D; /* Café oscuro, para texto de marca, footer y hover fuerte */
-            --color-text-dark: #4A4A4A; /* Texto principal oscuro */
-            --color-text-subtle: #8B8780; /* Texto secundario/menú */
-            /* Estilos de Dashboard */
-            --color-card-bg: #E6D8D2; /* Fondo claro para los botones/cards */
-            --color-card-border: #C6A89C;
-            --color-card-shadow: rgba(0, 0, 0, 0.1);
+            --color-primary-bg: #FAF7F0;      /* Fondo general cálido y suave */
+            --color-secondary-bg: #FFFFFF;    /* Fondo de tarjetas y sidebar */
+            --color-header-bg: #F0E9DF;       /* Encabezado claro y cálido */
+            --color-accent-soft: #D8E8D8;     /* Verde pastel suave para hover y botones */
+            --color-accent-medium: #A3C59F;   /* Verde/oliva medio para botones activos */
+            --color-accent-strong: #6B8E23;   /* Verde oscuro para textos importantes */
+            --color-text-dark: #4A4A4A;       /* Texto principal */
+            --color-text-subtle: #7D7D7D;     /* Texto secundario */
+            --color-card-bg: #FDFDF5;         /* Tarjetas claras */
+            --color-card-border: #D8E8D8;     
+            --color-card-shadow: rgba(0, 0, 0, 0.08);
 
-            /* Clases copiadas del panel.php admin para usar en el dashboard del alumno */
-            --admin-kpi-card-bg: var(--color-card-bg);
-            --admin-kpi-card-border: var(--color-card-border);
-            --admin-kpi-card-shadow: var(--color-card-shadow);
+            /* KPIs o tarjetas */
+            --kpi-card-bg: var(--color-card-bg);
+            --kpi-card-border: var(--color-card-border);
+            --kpi-card-shadow: var(--color-card-shadow);
         }
 
         /* ==========================================================
@@ -109,7 +108,7 @@
             background-color: var(--color-secondary-bg);
             padding: 20px 0;
             box-shadow: 2px 0 5px rgba(0, 0, 0, 0.05);
-            border-right: 1px solid #EBE7E2;
+            border-right: 1px solid #E6E2D9;
             flex-shrink: 0;
         }
         .sidebar-menu {
@@ -138,7 +137,7 @@
         }
         .menu-item.active a {
             background-color: var(--color-accent-medium);
-            color: var(--color-secondary-bg); 
+            color: var(--color-secondary-bg);
             border-left: 3px solid var(--color-accent-strong);
             font-weight: 600;
         }
@@ -157,36 +156,35 @@
         }
 
         /* ==========================================================
-           ESTILOS COPIADOS DEL DASHBOARD ADMIN (Para el Alumno)
+           DASHBOARD ALUMNO
            ========================================================== */
         .dashboard-container {
             padding: 30px;
             background-color: var(--color-secondary-bg);
             border-radius: 8px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+            box-shadow: 0 4px 10px var(--color-card-shadow);
         }
         .dashboard-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Adaptado para 2 o 3 columnas flexibles */
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 20px;
             margin-bottom: 30px;
         }
-        /* Clase reutilizada para tarjetas clave (KPIs) */
         .kpi-card {
-            background-color: var(--admin-kpi-card-bg);
-            border: 1px solid var(--admin-kpi-card-border);
+            background-color: var(--kpi-card-bg);
+            border: 1px solid var(--kpi-card-border);
             border-radius: 6px;
             padding: 20px;
             text-align: center;
-            box-shadow: 0 2px 5px var(--admin-kpi-card-shadow);
-            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 2px 5px var(--kpi-card-shadow);
+            transition: transform 0.2s, box-shadow 0.2s, background-color 0.2s;
             text-decoration: none;
             color: var(--color-text-dark);
             display: block;
         }
         .kpi-card:hover {
             transform: translateY(-3px);
-            box-shadow: 0 4px 8px var(--admin-kpi-card-shadow);
+            box-shadow: 0 4px 8px var(--kpi-card-shadow);
             background-color: var(--color-accent-soft);
         }
         .kpi-card h3 {
@@ -208,7 +206,7 @@
 <body>
     <header class="main-header">
         <a href="<?= base_url('alumno') ?>" class="header-logo">
-            <i class="fas fa-mug-hot"></i> Café con Letras | Alumno
+            <i class="fas fa-book"></i> Jardín de Lecturas | Alumno
         </a>
         <div class="header-user-info">
             Bienvenido(a), <span class="user-name"><?= session('nombre') . ' ' . session('apellido') ?></span>
@@ -220,19 +218,13 @@
         <aside class="main-sidebar">
             <ul class="sidebar-menu">
                 <li class="menu-item <?= ($menu_activo ?? '') === 'dashboard' ? 'active' : '' ?>">
-                    <a href="<?= base_url('alumno') ?>">
-                         Dashboard
-                    </a>
+                    <a href="<?= base_url('alumno') ?>">Dashboard</a>
                 </li>
                 <li class="menu-item <?= ($menu_activo ?? '') === 'catalogo' ? 'active' : '' ?>">
-                    <a href="<?= base_url('alumno/catalogo') ?>">
-                        Catálogo de Libros
-                    </a>
+                    <a href="<?= base_url('alumno/catalogo') ?>">Catálogo de Libros</a>
                 </li>
                 <li class="menu-item <?= ($menu_activo ?? '') === 'prestamos' ? 'active' : '' ?>">
-                    <a href="<?= base_url('alumno/prestamos') ?>">
-                        Mis Préstamos
-                    </a>
+                    <a href="<?= base_url('alumno/prestamos') ?>">Mis Préstamos</a>
                 </li>
             </ul>
         </aside>
@@ -249,7 +241,7 @@
     </div>
 
     <footer class="main-footer">
-        &copy; <?= date('Y') ?> Café con Letras | Portal de Alumnos
+        &copy; <?= date('Y') ?> Jardín de Lecturas | Portal de Alumnos
     </footer>
     <?= $extra_footer ?? '' ?>
 </body>
