@@ -3,26 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?= $titulo ?? 'Panel Bibliotecario' ?> | Café con Letras</title>
+    <title><?= $titulo ?? 'Panel Bibliotecario' ?> | Jardín de Lecturas</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     
     <style>
         /* ==========================================================
-           PALETA DE COLORES
+           PALETA DE COLORES - Jardín de Lecturas
            ========================================================== */
         :root {
-            --color-primary-bg: #F8F5EF; 
-            --color-secondary-bg: #FEFEFE; 
-            --color-header-bg: #F2EFE9; 
-            --color-accent-soft: #E6D8D2; 
-            --color-accent-medium: #C6A89C; 
-            --color-accent-strong: #A35F3D; 
-            --color-text-dark: #4A4A4A; 
-            --color-text-subtle: #8B8780;
-            /* Variables de Tarjeta */
-            --color-card-bg: #E6D8D2;
-            --color-card-border: #C6A89C;
-            --color-card-shadow: rgba(0, 0, 0, 0.1);
+            --color-primary-bg: #F7F2FA;    /* Fondo general, lila muy suave */
+            --color-secondary-bg: #FFFFFF;  /* Tarjetas y sidebar */
+            --color-header-bg: #F3EBF5;     /* Encabezado más claro */
+            --color-accent-soft: #E7D9F0;   /* Hover y botones suaves */
+            --color-accent-medium: #C8A9E0; /* Fondo de botón activo y bordes */
+            --color-accent-strong: #9B59B6; /* Texto de marca, hover fuerte */
+            --color-text-dark: #4A4A4A;     /* Texto principal */
+            --color-text-subtle: #8B7D9A;   /* Texto secundario */
+            --color-card-bg: #F5EAF8;       /* Fondo de tarjetas/KPIs */
+            --color-card-border: #C8A9E0;   
+            --color-card-shadow: rgba(0, 0, 0, 0.08);
+
+            /* KPIs o tarjetas */
             --admin-kpi-card-bg: var(--color-card-bg);
             --admin-kpi-card-border: var(--color-card-border);
             --admin-kpi-card-shadow: var(--color-card-shadow);
@@ -103,7 +104,7 @@
             background-color: var(--color-secondary-bg);
             padding: 20px 0;
             box-shadow: 2px 0 5px rgba(0, 0, 0, 0.05);
-            border-right: 1px solid #EBE7E2;
+            border-right: 1px solid #E7D9F0;
             flex-shrink: 0;
         }
         .sidebar-menu {
@@ -155,10 +156,7 @@
             padding-bottom: 10px;
         }
 
-
-        /* ==========================================================
-           !!! ESTILOS DE DASHBOARD AGREGADOS AQUÍ !!!
-           ========================================================== */
+        /* DASHBOARD */
         .dashboard-container {
             padding: 30px;
             background-color: var(--color-secondary-bg);
@@ -171,12 +169,9 @@
             gap: 20px;
             margin-bottom: 30px;
         }
-        /* Clase reutilizada para tarjetas clave (KPIs) */
         .kpi-card {
-            /* IMPORTANTE: Esto asegura que el texto dentro del <a> no se vea azul */
             text-decoration: none; 
             color: var(--color-text-dark); 
-
             background-color: var(--admin-kpi-card-bg);
             border: 1px solid var(--admin-kpi-card-border);
             border-radius: 6px;
@@ -196,7 +191,6 @@
             font-size: 1.2rem;
             color: var(--color-accent-strong);
         }
-        /* Líneas de simulación KPI */
         .kpi-line {
             height: 10px;
             background-color: var(--color-accent-medium);
@@ -205,7 +199,6 @@
             opacity: 0.5;
             width: 80%;
         }
-        
     </style>
     
     <?= $extra_head ?? '' ?>
@@ -213,7 +206,7 @@
 <body>
     <header class="main-header">
         <a href="<?= base_url('bibliotecario') ?>" class="header-logo">
-            <i class="fas fa-mug-hot"></i> Café con Letras | Bibliotecario
+            <i class="fas fa-book"></i> Jardín de Lecturas | Bibliotecario
         </a>
         <div class="header-user-info">
             Operador(a), <span class="user-name"><?= session('nombre') . ' ' . session('apellido') ?></span>
@@ -225,23 +218,16 @@
         <aside class="main-sidebar">
             <ul class="sidebar-menu">
                 <li class="menu-item <?= ($menu_activo ?? '') === 'dashboard' ? 'active' : '' ?>">
-                    <a href="<?= base_url('bibliotecario/dashboard') ?>">
-                         Dashboard
-                    </a>
+                    <a href="<?= base_url('bibliotecario/dashboard') ?>">Dashboard</a>
                 </li>
                 
                 <li class="menu-item <?= ($menu_activo ?? '') === 'prestamos' ? 'active' : '' ?>">
-                    <a href="<?= base_url('bibliotecario/prestamos') ?>">
-                        Gestión Préstamos
-                    </a>
+                    <a href="<?= base_url('bibliotecario/prestamos') ?>">Gestión Préstamos</a>
                 </li>
                 
                 <li class="menu-item <?= ($menu_activo ?? '') === 'devoluciones' ? 'active' : '' ?>">
-                    <a href="<?= base_url('bibliotecario/devoluciones') ?>">
-                        Registro Devoluciones
-                    </a>
+                    <a href="<?= base_url('bibliotecario/devoluciones') ?>">Registro Devoluciones</a>
                 </li>
-                
             </ul>
         </aside>
 
@@ -257,7 +243,7 @@
     </div>
 
     <footer class="main-footer">
-        &copy; <?= date('Y') ?> Café con Letras | Portal de Bibliotecarios
+        &copy; <?= date('Y') ?> Jardín de Lecturas | Portal de Bibliotecarios
     </footer>
     <?= $extra_footer ?? '' ?>
 </body>
