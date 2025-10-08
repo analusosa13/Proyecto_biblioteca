@@ -3,23 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?= $titulo ?? 'Panel de Administración' ?> | Café con Letras</title>
+    <title><?= $titulo ?? 'Panel de Administración' ?> | Jardín de Lecturas</title>
     <style>
         /* ==========================================================
-           PALETA DE COLORES (Basada en el Login y Dashboard)
+           PALETA DE COLORES (Jardín de Lecturas)
            ========================================================== */
         :root {
-            --color-primary-bg: #F8F5EF; /* Beige muy claro, fondo general del contenido */
-            --color-secondary-bg: #FEFEFE; /* Blanco, fondo de tarjetas y sidebar */
-            --color-header-bg: #F2EFE9; /* Tono más claro para el encabezado/barra */
-            --color-accent-soft: #E6D8D2; /* Tono pastel para hover y botones suaves */
-            --color-accent-medium: #C6A89C; /* Rosa/Café suave, para fondo de botón activo y bordes */
-            --color-accent-strong: #A35F3D; /* Café oscuro, para texto de marca, footer y hover fuerte */
-            --color-text-dark: #4A4A4A; /* Texto principal oscuro */
-            --color-text-subtle: #8B8780; /* Texto secundario/menú */
-            /* Estilos de Dashboard */
-            --color-card-bg: #E6D8D2; /* Fondo claro para los botones/cards */
-            --color-card-border: #C6A89C;
+            --color-primary-bg: #FDF6F0; /* Fondo general, beige claro */
+            --color-secondary-bg: #FFFFFF; /* Tarjetas y sidebar */
+            --color-header-bg: #FFF7EE; /* Encabezado más suave */
+            --color-accent-soft: #FCE8D8; /* Hover y botones suaves */
+            --color-accent-medium: #F7C9A5; /* Fondo de botón activo y bordes */
+            --color-accent-strong: #D9844A; /* Texto de marca, hover fuerte */
+            --color-text-dark: #4A4A4A; /* Texto principal */
+            --color-text-subtle: #8B7D72; /* Texto secundario */
+            --color-card-bg: #FFF1E5; /* Fondo de botones/cards */
+            --color-card-border: #F7C9A5;
             --color-card-shadow: rgba(0, 0, 0, 0.1);
         }
 
@@ -50,7 +49,6 @@
         }
         
         .main-content {
-            /* Ya no tiene color de fondo ni sombra, lo tiene la plantilla del dashboard */
             padding: 0; 
             min-height: calc(100vh - 160px); 
         }
@@ -65,7 +63,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            box-shadow: 0 1px 5px rgba(0, 0, 0, 0.05);
+            box-shadow: 0 1px 5px rgba(0, 0, 0, 0.03);
         }
         .header-logo {
             font-size: 1.5rem;
@@ -103,7 +101,7 @@
             background-color: var(--color-secondary-bg);
             padding: 20px 0;
             box-shadow: 2px 0 5px rgba(0, 0, 0, 0.05);
-            border-right: 1px solid #EBE7E2;
+            border-right: 1px solid #F7C9A5;
             flex-shrink: 0;
         }
         .sidebar-menu {
@@ -145,9 +143,16 @@
             flex-shrink: 0;
         }
 
-        /* [Estilos Responsive Omitidos por brevedad, asume que están aquí] */
+        /* Responsive */
         @media (max-width: 768px) {
-            /* ... (Tus estilos responsive) ... */
+            .page-wrapper {
+                flex-direction: column;
+            }
+            .main-sidebar {
+                width: 100%;
+                border-right: none;
+                border-bottom: 1px solid var(--color-accent-medium);
+            }
         }
     </style>
     <?= $extra_head ?? '' ?>
@@ -155,7 +160,7 @@
 <body>
     <header class="main-header">
         <a href="<?= base_url('panel/admin') ?>" class="header-logo">
-            <i class="fas fa-mug-hot"></i> Café con Letras | Admin
+            <i class="fas fa-book"></i> Jardín de Lecturas | Admin
         </a>
         <div class="header-user-info">
             Bienvenido(a), <span class="user-name"><?= session('nombre') . ' ' . session('apellido') ?></span>
@@ -167,36 +172,23 @@
         <aside class="main-sidebar">
             <ul class="sidebar-menu">
                 <li class="menu-item <?= ($menu_activo ?? '') === 'dashboard' ? 'active' : '' ?>">
-                    <a href="<?= base_url('panel/admin') ?>">
-                        Dashboard
-                    </a>
+                    <a href="<?= base_url('panel/admin') ?>">Dashboard</a>
                 </li>
                 <li class="menu-item <?= ($menu_activo ?? '') === 'libros' ? 'active' : '' ?>">
-                    <a href="<?= base_url('libros') ?>">
-                        Gestión de Libros
-                    </a>
+                    <a href="<?= base_url('libros') ?>">Gestión de Libros</a>
                 </li>
                 <li class="menu-item <?= ($menu_activo ?? '') === 'usuarios' ? 'active' : '' ?>">
-                    <a href="<?= base_url('usuarios') ?>">
-                        Gestión de Usuarios
-                    </a>
+                    <a href="<?= base_url('usuarios') ?>">Gestión de Usuarios</a>
                 </li>
                 <li class="menu-item <?= ($menu_activo ?? '') === 'prestamos' ? 'active' : '' ?>">
-                    <a href="<?= base_url('prestamos') ?>">
-                        Préstamos
-                    </a>
+                    <a href="<?= base_url('prestamos') ?>">Préstamos</a>
                 </li>
                 <li class="menu-item <?= ($menu_activo ?? '') === 'devoluciones' ? 'active' : '' ?>">
-                    <a href="<?= base_url('devoluciones') ?>">
-                        Devoluciones
-                    </a>
+                    <a href="<?= base_url('devoluciones') ?>">Devoluciones</a>
                 </li>
                 <li class="menu-item <?= ($menu_activo ?? '') === 'reportes' ? 'active' : '' ?>">
-                    <a href="<?= base_url('reportes') ?>">
-                        Reportes
-                    </a>
+                    <a href="<?= base_url('reportes') ?>">Reportes</a>
                 </li>
-                
             </ul>
         </aside>
 
@@ -206,7 +198,7 @@
     </div>
 
     <footer class="main-footer">
-        &copy; <?= date('Y') ?> Café con Letras | Sistema de Gestión Bibliotecaria
+        &copy; <?= date('Y') ?> Jardín de Lecturas | Sistema de Gestión Bibliotecaria
     </footer>
     <?= $extra_footer ?? '' ?>
 </body>
