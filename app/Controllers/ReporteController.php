@@ -105,7 +105,7 @@ class ReporteController extends BaseController
      */
     public function librosDisponibles()
     {
-        $datos_reporte = $this->libroModel->obtenerLibrosDisponiblesConCategoria();
+        $datos_reporte = $this->libroModel->obtenerLibrosConCategoria();
 
         $data = [
             'tipo_reporte' => 'Inventario de Libros Disponibles',
